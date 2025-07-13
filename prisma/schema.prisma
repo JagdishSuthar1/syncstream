@@ -1,0 +1,117 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id Int @id @default(autoincrement())
+  email String @unique
+  provider Provider
+  role Role
+  streams ActiveStream[]
+  vote Votes[]
+  spaces Space[] @relation("Created_Spaces")
+  activeSpaces Space[] @relation("Joined_Spaces")
+  bannedInSpaces Space[] @relation("Banned_Users")
+  chats Chats[]
+  wantPoll Polls[] @relation("Want_Poll")
+  dontWantPolls Polls[] @relation("dontWant_Poll")
+}
+
+
+model Space {
+  id Int @id @default(autoincrement())
+  creatorId Int
+  spacecode Int @unique
+  name String
+  link String
+  creator User @relation("Created_Spaces", fields: [creatorId] , references: [id], onDelete: Cascade)
+  activeStreams ActiveStream[]
+  activeUsers User[] @relation("Joined_Spaces")
+  bannedUsers User[] @relation("Banned_Users")
+  comments Chats[]
+  polls Polls[]
+}
+
+
+model ActiveStream {
+  id              Int @id @default(autoincrement())
+  type            StreamType
+  votes          Votes[]   
+  spaceId Int
+  url String
+  title String
+  thumbnailURL  String
+  extractedId String
+  userId Int
+  user User @relation(fields: [userId] , references: [id])
+  space Space @relation(fields: [spaceId] , references: [id] , onDelete: Cascade)
+}
+
+
+model Votes {
+  id Int @id @default(autoincrement()) 
+  type VoteType
+  userId Int 
+  streamId Int 
+  user User @relation(fields: [userId], references: [id] , onDelete: Cascade)
+  stream ActiveStream @relation(fields: [streamId], references: [id], onDelete: Cascade)
+  @@unique([streamId , userId])
+}
+
+model Chats {
+  id Int @id @default(autoincrement())
+  spaceId Int
+  space Space @relation(fields: [spaceId],references: [id])
+  userId Int
+  user User @relation(fields: [userId],references: [id])
+  message String
+}
+
+
+model Polls {
+  id Int @id @default(autoincrement())
+  url String
+  status StatusType
+  spaceId Int
+  startTime Int
+  space Space @relation(fields: [spaceId] , references: [id])
+  want User[] @relation("Want_Poll")
+  dontWant User[] @relation("dontWant_Poll")
+}
+
+enum StatusType {
+  ACTIVE
+  CLOSE
+}
+enum VoteType {
+  Upvote 
+  DownVote 
+}
+
+enum StreamType {
+  Youtube 
+  Spotify 
+}
+
+
+enum Provider {
+  Google
+}
+
+
+enum Role {
+  Streamer
+  EndUser
+}
