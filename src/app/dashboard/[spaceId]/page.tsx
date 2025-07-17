@@ -8,44 +8,40 @@ import getAllSpaceID from "@/helpers/getAllSpaceIDs";
 import getAllStream from "@/helpers/getAllStream";
 import { GetDecryptedData } from "@/helpers/getDecryptedData";
 import { Suspense } from "react";
+import SpacePage from "./serversideSpace";
 
 export const dynamic = 'force-dynamic';
 
-// export async function generateStaticParams() {
-//     const response = await getAllSpaceID();
-//     let paths: { spaceId: string }[] = [];
+export async function generateStaticParams() {
+    const response = await getAllSpaceID();
+    let paths: { spaceId: string }[] = [];
 
-//     if (response.success == true && response.data != null) {
-//         for (let i = 0; i < response.data.length; i++) {
-//             paths.push({ spaceId: response.data[i].id.toString() });
-//         }
+    if (response.success == true && response.data != null) {
+        for (let i = 0; i < response.data.length; i++) {
+            paths.push({ spaceId: response.data[i].id.toString() });
+        }
+    }
 
-//     }
-
-//     return paths;
-// }
-
-
-export default async function SpacePage({ params }: { params: { spaceId: string } }) {
-
-
-    const decryptedData = GetDecryptedData((await params).spaceId)
+    return paths;
+}
 
 
 
-        const streamData = getAllStream(decryptedData.id);
+type ParamsProp = {
+    params : {
+        spaceId: string 
+    }
+}
+
+
+export default async function Page({ params }:  ParamsProp) {
 
             return (
                 <div className="w-full h-screen">
                     <Suspense fallback={<SkeltonLandingPage />} >
-                        {<LandingPageForCurrentSPace data={streamData} />}
+                        {<SpacePage params={params} />}
                     </Suspense>
-                    <Toaster />
-
                 </div>
             )
-
-        
-    
 
 }

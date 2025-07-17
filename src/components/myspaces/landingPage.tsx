@@ -21,10 +21,9 @@ import { AllSpaceType } from "@/types/allTypes";
 const secret_key = "Jagdish_Suthar"
 
 
-export default function DashboardLandingPage({ data }: { data: Promise<AllSpaceType> }) {
-  const content = use(data)
+export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
   const router = useRouter();
-  if (content.data != null && content.success == true) {
+  if (data.data != null && data.success == true) {
 
     const {
       setFetchSpacesAgain,
@@ -35,7 +34,7 @@ export default function DashboardLandingPage({ data }: { data: Promise<AllSpaceT
 
     return (
 
-      <div className={`w-full h-full bg-[${colorsStates.dashaboardPage.background}] text-${typography.dashaboardPage}`}>
+      <div className={`w-full min-h-max bg-[${colorsStates.dashaboardPage.background}] text-${typography.dashaboardPage}`}>
         <Toaster />
         <Card className={`w-full h-full bg-[${colorsStates.dashaboardPage.background}] text-black flex flex-col gap-2 rounded-none border-none`}>
           <CardHeader className="text-2xl font-bold text-white pl-10 flex flex-row gap-10 justify-end">
@@ -60,8 +59,8 @@ export default function DashboardLandingPage({ data }: { data: Promise<AllSpaceT
                 {/* <ScrollBar orientation="horizontal"/> */}
                 <CardContent className="flex flex-row flex-wrap gap-3 p-3">
 
-                  {content.data && content.data.mySpaces && content.data.mySpaces.length > 0 ? (
-                    content.data.mySpaces.map((item, index) => (
+                  {data.data && data.data.mySpaces && data.data.mySpaces.length > 0 ? (
+                    data.data.mySpaces.map((item, index) => (
                       <Card
                         key={index}
                         className="w-100 h-95  flex flex-col gap-0 ml-3 rounded-[7px]"
@@ -144,8 +143,8 @@ export default function DashboardLandingPage({ data }: { data: Promise<AllSpaceT
               <CardContent className="flex flex-row flex-wrap gap-3 p-3">
 
 
-                {content && content.data.joinedSpaces && content.data.joinedSpaces.length > 0 ? (
-                  content.data.joinedSpaces.map((item, index) => (
+                {data && data.data.joinedSpaces && data.data.joinedSpaces.length > 0 ? (
+                  data.data.joinedSpaces.map((item, index) => (
                     <Card
                       key={index}
                       className="w-100 h-95  flex flex-col gap-0 m-0 ml-3 rounded-[7px]"

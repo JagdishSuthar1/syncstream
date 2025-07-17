@@ -6,17 +6,16 @@ import getAllSpaces from "@/helpers/getAllSpaces";
 
 import { Suspense } from "react";
 import { toast, Toaster } from "sonner";
+import DashboardPage from "./serverSideDashboard";
 
 
 
 export default async function Dashboard() {
-  const allSpaces = getAllSpaces();
-
   return (
     <div>
       <Toaster />
       <Suspense fallback={<DashboardLandingSkelton/>}>
-          <DashboardLandingPage data={allSpaces} />
+          <DashboardPage />
       </Suspense>
     </div>
   );

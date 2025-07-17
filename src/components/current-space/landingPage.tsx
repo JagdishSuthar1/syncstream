@@ -11,7 +11,7 @@ import handleUpvote from "@/helpers/upvote";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {  Router, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { use, useActionState, useContext, useEffect, useState } from "react";
+import { useActionState, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 
@@ -44,12 +44,11 @@ type DataProps = {
 export default function LandingPageForCurrentSPace({
     data,
 }: {
-    data: Promise<DataProps>;
+    data: DataProps;
 }) {
     const router = useRouter()
-    const content = use(data);
 
-    if(content.success == true && content.data != null && content.userInfo != null) {
+    if(data.success == true && data.data != null && data.userInfo != null) {
 
     const {
         allStreams,
@@ -72,17 +71,17 @@ export default function LandingPageForCurrentSPace({
 
 
     const [currentstream, setCurrentStream] = useState<StreamType | null>(null);
-    const [state, formAction] = useActionState(handleUpvote, content);
+    const [state, formAction] = useActionState(handleUpvote, data);
     const [banned, setBanned] = useState<boolean>(false);
-    const [state2, formAction2] = useActionState(handleDownvote, content);
+    const [state2, formAction2] = useActionState(handleDownvote, data);
 
     const pathname = usePathname()
     const decryptedSpaceData = GetDecryptedData(pathname.split("/")[2]);
 
-    // if(content.data != undefined) {
-    //     setAllStream(content.data.allStream);
-    //     setCurrentStream(content.data.currentStream)
-    //     setFetchAgain(content.data.fetchAgain)
+    // if(data.data != undefined) {
+    //     setAllStream(data.data.allStream);
+    //     setCurrentStream(data.data.currentStream)
+    //     setFetchAgain(data.data.fetchAgain)
     // }
 
 
@@ -112,8 +111,8 @@ export default function LandingPageForCurrentSPace({
         //   setInterval(()=> {
         //     router.refresh();
         //       }, 10000);
-        setComments(content.data?.comments!)
-        console.log("mountinr websocket")
+        setComments(data.data?.comments!)
+        // console.log("mountinr websocket")
         const socket = new WebSocket("ws://localhost:3001");
 
         socket.onopen = () => {
@@ -123,8 +122,8 @@ export default function LandingPageForCurrentSPace({
                     type: "JOIN_SPACE",
                     payload: {
                         spaceId: decryptedSpaceData.id,
-                        userId: content.userInfo?.id,
-                        email: content.userInfo?.email
+                        userId: data.userInfo?.id,
+                        email: data.userInfo?.email
                     },
                 })
             );
@@ -203,31 +202,7 @@ export default function LandingPageForCurrentSPace({
 
     }, [state, state2]);
 
-
     // const initialState = {};
-
-    const streamColors = [
-        "bg-[#e80082]",
-        "bg-[#1a1a1a]",
-        "bg-[#071919]",
-        "bg-[#ff69b4]",
-        "bg-[#ffb6c1]",
-        "bg-[#c71585]",
-        "bg-[#ffffff]",
-        "bg-[#e0e0e0]",
-        "bg-[#a0a0a0]",
-        "bg-[#CC6CE7]",
-        "bg-[#00f0ff]",
-        "bg-[#39ff14]",
-        "bg-[#faff00]",
-        "bg-[#ff6ec7]",
-        "bg-[#ffccff]",
-        "bg-[#ffd700]",
-        "bg-[#00ffc6]",
-        "bg-[#e0ffff]",
-        "bg-[#ffc0cb]",
-        "bg-[#b19cd9]"
-    ];
 
 
     async function PostCommentInSpace(formdata: FormData) {
@@ -262,11 +237,11 @@ export default function LandingPageForCurrentSPace({
     }
 
     return (
-        <div className={`w-full bg-[#071919] text-${typography}`}>
+        <div className={`w-full bg-[#071919] text-${typography} min-h-max `}>
             {currentPollDetails ? <PollDialog pollStream={currentPollDetails} /> : ""}
             {kicked ? <KickedDialog /> : banned ? <BannedDialog /> :
 
-                <div className="w-full h-vh flex flex-col gap-5 p-3">
+                <div className="w-full min-h-max flex flex-col gap-5 p-3">
 
                     <div className={`w-[98%] h-150 flex flex-row gap-3 justify-evenly mt-3  rounded-[5px]`}>
                         <Card className="h-full w-[70%] flex flex-col gap-0 pb-0 bg-[#071919] rounded-[5px] ">
@@ -332,7 +307,7 @@ export default function LandingPageForCurrentSPace({
 
 
                                         <div className="w-[30%]  flex flex-row justify-end">
-                                            {allStreams && allStreams.length > 0 ? (
+                                            {allStreams && allStreams.length > 0 && decryptedSpaceData && decryptedSpaceData.creatorId == data.userInfo?.id ?  (
                                                 <Button
                                                     className="bg-[#e80082] hover:bg-[#e80082] w-15 h-15 rounded-[50%] hover:cursor-pointer"
                                                     onClick={() => {
@@ -357,7 +332,7 @@ export default function LandingPageForCurrentSPace({
                         </Card>
 
                         <Card className={`h-full w-[30%]  flex flex-col gap-3 pt-3 bg-[${colorsStates.streamPage.background}] rounded-[5px]`}>
-                            <DialogForAddStream userId={content.userInfo.id} />
+                            <DialogForAddStream userId={data.userInfo.id} />
                             <ScrollArea className="w-full h-[95%]">
                                 <CardContent className="flex flex-col gap-[5px]">
                                     {allStreams
@@ -427,7 +402,7 @@ export default function LandingPageForCurrentSPace({
                                                                 </form>
                                                             </div>
 
-                                                            {decryptedSpaceData && decryptedSpaceData.creatorId == content.userInfo?.id ? <Button className={`bg-[#3b3937]  hover:cursor-pointer`} onClick={async () => {
+                                                            {decryptedSpaceData && decryptedSpaceData.creatorId == data.userInfo?.id ? <Button className={`bg-[#3b3937]  hover:cursor-pointer`} onClick={async () => {
 
                                                                 const response = await CreatePoll({
                                                                     status: 'ACTIVE',
@@ -466,7 +441,7 @@ export default function LandingPageForCurrentSPace({
                             <div>
                                 <form action={PostCommentInSpace}>
                                     <Input type="hidden" name="spaceId" value={decryptedSpaceData.id} />
-                                    <Input type="hidden" name="userId" value={content.userInfo.id} />
+                                    <Input type="hidden" name="userId" value={data.userInfo.id} />
                                     <div className="flex flex-row gap-3 ">
                                         <Input
                                             className="w-100 rounded-[5px] text-white"
@@ -484,7 +459,7 @@ export default function LandingPageForCurrentSPace({
                                 {comments
                                     ? comments.map((item, index) => (
                                         <div key={index} className={`w-full h-13  flex flex-row gap-10 p-3 rounded-none`}>
-                                            {item.user.id == content.userInfo?.id ? (
+                                            {item.user.id == data.userInfo?.id ? (
                                                 <span className="text-white mt-1">You</span>
                                             ) : (
                                                 <Avatar>

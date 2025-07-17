@@ -1,4 +1,4 @@
-import Header from "@/components/ui/header";
+import Header from "@/components/landing/header";
 import MainContextProvider from "@/context";
 import AllProviders from "@/providers";
 

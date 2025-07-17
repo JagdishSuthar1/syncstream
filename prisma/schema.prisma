@@ -36,6 +36,7 @@ model Space {
   spacecode Int @unique
   name String
   link String
+  currentStream Int
   creator User @relation("Created_Spaces", fields: [creatorId] , references: [id], onDelete: Cascade)
   activeStreams ActiveStream[]
   activeUsers User[] @relation("Joined_Spaces")
