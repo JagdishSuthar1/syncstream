@@ -4,6 +4,7 @@ import { Button } from "../ui/button";
 import { usePathname, useRouter } from "next/navigation";
 import { useContext } from "react";
 import { MainContext } from "@/context";
+// import { revalidatePath } from "next/cache";
 
 
 export default function KickedDialog() {
@@ -24,7 +25,8 @@ export default function KickedDialog() {
                     <Button onClick={()=> {
                         setKicked(false);
                         setFetchAgain(true);
-                        router.refresh()
+                        // revalidatePath(pathname)
+                        window.location.reload();
                         // router.push(pathname)
                         }}>Join Again</Button>
                 </div>

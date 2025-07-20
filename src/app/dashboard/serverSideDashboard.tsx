@@ -9,6 +9,7 @@ export default async function DashboardPage() {
   return (
     <div>
           <DashboardLandingPage data={allSpaces} />
+          {/* <DashboardLandingSkelton/> */}
     </div>
   );
 }

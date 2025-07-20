@@ -1,9 +1,7 @@
 "use server";
 import { SpaceType, StreamType, UserType } from "@/context";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import BannedOrNot from "./bannedOrNot";
-import CheckAuthenticated from "./checkAuthenticated";
 
 type DataProps = {
   success: boolean;
@@ -48,6 +46,11 @@ export default async function getAllStream(
       }
       ,
       include: {
+        stream : {
+           include: {
+              votes: true
+          }
+        },
         activeUsers: true,
         activeStreams: {
           include: {
@@ -64,6 +67,7 @@ export default async function getAllStream(
 
 
     // console.log(results.comments);
+
     let dummy = [];
     let currentSpace = {
       id: results.id,
@@ -73,6 +77,8 @@ export default async function getAllStream(
       spaceCode: results.spacecode,
       activeUsers: results.activeUsers,
     }
+
+    let currentStream : StreamType;
 
     let upvoteCount = 0;
     let downVoteCount = 0;
@@ -87,7 +93,9 @@ export default async function getAllStream(
           downVoteCount = downVoteCount + 1;
         }
       }
-
+      
+      
+      
       const newDocument = {
         id: results.activeStreams[i].id,
         type: results.activeStreams[i].type,
@@ -98,19 +106,25 @@ export default async function getAllStream(
         title: results.activeStreams[i].title,
         thumbnailURL: results.activeStreams[i].thumbnailURL,
       };
+
+      if(results.stream != null && results.activeStreams[i].id == results.stream.id) {
+        currentStream = newDocument;
+      }
       dummy.push(newDocument);
     }
+
 
     dummy.sort((a, b) => {
       return b.upvote - a.upvote;
     });
+
 
     return {
       success: true,
       message: "Data Fetched Successfully",
       userInfo : response.data,
       data: {
-        currentStream: dummy[0],
+        currentStream: currentStream!,
         allStream: dummy,
         currentSpace,
         comments: results.comments,

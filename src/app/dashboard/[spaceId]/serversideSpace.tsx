@@ -4,6 +4,7 @@ import { GetDecryptedData } from "@/helpers/getDecryptedData";
 import { Metadata } from "next";
 import { Toaster } from "sonner";
 import {cache} from "react"
+import SkeltonLandingPage from "@/components/current-space/skeletonLandingPage";
 
 
 
@@ -46,6 +47,7 @@ export default async function SpacePage({
     return (
         <div className="w-full min-h-max">
             {<LandingPageForCurrentSPace data={streamData} />}
+            {/* <SkeltonLandingPage /> */}
             <Toaster />
         </div>
     );

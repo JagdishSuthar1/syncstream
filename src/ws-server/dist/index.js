@@ -13,12 +13,20 @@ const ws = new ws_1.WebSocketServer({ server: httpServer });
 const SpacesUsers = new users_1.Users();
 const PollsOfSPaces = new polls_1.SpacePolls();
 function SendMessageToAll(spaceId, payload) {
-    var _a;
     const allUsers = SpacesUsers.getAllUsersInSpace(spaceId);
-    console.log("length", (_a = allUsers.data) === null || _a === void 0 ? void 0 : _a.length);
     if (allUsers.data != null) {
         for (let i = 0; i < allUsers.data.length; i++) {
             allUsers.data[i].socketId.send(payload);
+        }
+    }
+}
+function SendMessageToAllExcept(spaceId, payload, socketId) {
+    const allUsers = SpacesUsers.getAllUsersInSpace(spaceId);
+    if (allUsers.data != null) {
+        for (let i = 0; i < allUsers.data.length; i++) {
+            if (allUsers.data[i].socketId != socketId) {
+                allUsers.data[i].socketId.send(payload);
+            }
         }
     }
 }
@@ -31,7 +39,7 @@ ws.on("connection", (socket) => {
             const response = SpacesUsers.addUserToSpace(data.payload.spaceId, data.payload.userId, socket, data.payload.email);
             // console.log(response)
             if (response.success == true) {
-                const payloadSendToAllSocket = JSON.stringify({ type: "ADDED_USER", payload: `UserId " + ${data.payload.userId} + "is Connected"` });
+                const payloadSendToAllSocket = JSON.stringify({ type: "ADDED_USER", payload: `UserId ${data.payload.email} is Connected"` });
                 SendMessageToAll(data.payload.spaceId, payloadSendToAllSocket);
             }
         }
@@ -39,7 +47,7 @@ ws.on("connection", (socket) => {
             const response = SpacesUsers.removeUsers(data.payload.spaceId, data.payload.userId);
             // console.log(response)
             if (response.success == true) {
-                const payloadSendToAllSocket = JSON.stringify({ type: "REMOVED_USER", payload: `UserId " + ${data.payload.userId} + "is Removed"` });
+                const payloadSendToAllSocket = JSON.stringify({ type: "REMOVED_USER", payload: `User ${data.payload.email} is Removed"` });
                 SendMessageToAll(data.payload.spaceId, payloadSendToAllSocket);
                 response.data.close(1000, "Kicked");
             }
@@ -86,6 +94,10 @@ ws.on("connection", (socket) => {
             const response = SpacesUsers.getAllUsersInSpace(data.payload.spaceId);
             const payloadSendToAllSocket = JSON.stringify({ type: 'ACTIVE_USERS', payload: response.data });
             socket.send(payloadSendToAllSocket);
+        }
+        else if (data.type == 'FETCH_AGAIN') {
+            const payloadSendToAllSocket = JSON.stringify({ type: 'FETCH_AGAIN' });
+            SendMessageToAllExcept(data.payload.spaceId, payloadSendToAllSocket, socket);
         }
     });
     socket.on("close", (userId, reason) => {

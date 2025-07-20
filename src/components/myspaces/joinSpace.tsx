@@ -16,14 +16,14 @@ export default function DialogForJoinSpace() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button className={`w-40 mr-7 hover:cursor-pointer bg-[#e80082] hover:bg-[#e80082] text-black`}><RocketIcon/>Join Space</Button>
+                <Button className={`w-37  hover:cursor-pointer bg-[#e80082] hover:bg-[#e80082] text-black md:text-[15px] text-[13px]`}><RocketIcon/>Join Space</Button>
             </DialogTrigger>
-            <DialogContent className="w-full bg-[#071919] text-white">
+            <DialogContent className="md:w-full w-70 bg-[#071919] text-white md:text-[15px] text-[13px] ">
                 <DialogHeader>
                     <DialogTitle>Join the Active Space</DialogTitle>
                     <DialogDescription className="">If the Host accept your request then you can join</DialogDescription>
                 </DialogHeader>
-                <div className="w-full">
+                <div className="w-full md:text-[15px] text-[13px]">
                     <Label htmlFor="space-code" className="mb-2 font-bold">Space Code</Label>
                     <Input ref={codeRef} type="text" placeholder="Enter the Space Code" id="space-code"/>
                     <div className="flex flex-row justify-end w-full mt-2 hover:cursor-pointer">

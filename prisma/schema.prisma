@@ -30,35 +30,37 @@ model User {
 }
 
 
-model Space {
-  id Int @id @default(autoincrement())
-  creatorId Int
-  spacecode Int @unique
-  name String
-  link String
-  currentStream Int
-  creator User @relation("Created_Spaces", fields: [creatorId] , references: [id], onDelete: Cascade)
-  activeStreams ActiveStream[]
-  activeUsers User[] @relation("Joined_Spaces")
-  bannedUsers User[] @relation("Banned_Users")
-  comments Chats[]
-  polls Polls[]
-}
+  model Space {
+    id Int @id @default(autoincrement())
+    creatorId Int
+    spacecode Int @unique
+    name String
+    link String
+    currentStream Int? @unique
+    stream ActiveStream? @relation("CURRENT_SPACE",fields: [currentStream] , references: [id])
+    creator User @relation("Created_Spaces", fields: [creatorId] , references: [id], onDelete: Cascade)
+    activeStreams ActiveStream[]
+    activeUsers User[] @relation("Joined_Spaces")
+    bannedUsers User[] @relation("Banned_Users")
+    comments Chats[]
+    polls Polls[]
+  }
 
 
-model ActiveStream {
-  id              Int @id @default(autoincrement())
-  type            StreamType
-  votes          Votes[]   
-  spaceId Int
-  url String
-  title String
-  thumbnailURL  String
-  extractedId String
-  userId Int
-  user User @relation(fields: [userId] , references: [id])
-  space Space @relation(fields: [spaceId] , references: [id] , onDelete: Cascade)
-}
+  model ActiveStream {
+    id              Int @id @default(autoincrement())
+    type            StreamType
+    votes          Votes[]   
+    spaceId Int
+    url String
+    title String
+    thumbnailURL  String
+    extractedId String
+    userId Int
+    streamInSpace Space? @relation("CURRENT_SPACE")
+    user User @relation(fields: [userId] , references: [id])
+    space Space @relation(fields: [spaceId] , references: [id] , onDelete: Cascade)
+  }
 
 
 model Votes {

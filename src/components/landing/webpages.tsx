@@ -3,7 +3,7 @@ import { motion} from "framer-motion"
 
 export default function WebPages() {
     return (
-        <section className=" pt-23 bg-[radial-gradient(ellipse_at_top,_#ec4899,_#111111,_#000000)] w-full relative overflow-x-clip text-white ">
+        <section className="pt-23 bg-[radial-gradient(ellipse_at_top,_#ec4899,_#111111,_#000000)] w-full relative overflow-x-clip text-white  pb-10">
                 <div className="flex flex-col justify-center items-center ">
                     <div className="w-[73%]">
                     <div className="px-5 flex flex-row justify-center items-center bg-gradient-to-b from-cyan-500 to-emerald-300 text-transparent bg-clip-text flex-wrap">

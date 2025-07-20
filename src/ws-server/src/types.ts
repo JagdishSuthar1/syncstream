@@ -8,7 +8,8 @@ export enum IncommingMessageType {
     poll_update = 'POLL_UPDATE',
     get_active_polls = 'GET_ACTIVE_POLLS',
     close_poll = 'CLOSE_POLL',
-    active_users = 'GET_ACTIVE_USERS'
+    active_users = 'GET_ACTIVE_USERS',
+    fetch_again = 'FETCH_AGAIN'    
 }
 
 export type UserPayloadType= {
@@ -74,5 +75,8 @@ export type IncommingData  = {
     payload : PollCloseType
 } | {
     type : IncommingMessageType.active_users,
+    payload : {spaceId : number}
+} | {
+    type : IncommingMessageType.fetch_again,
     payload : {spaceId : number}
 }

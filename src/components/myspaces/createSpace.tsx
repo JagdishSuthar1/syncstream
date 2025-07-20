@@ -67,17 +67,17 @@ export default function DialogForAddSpace() {
         }
         }
         >
-            <div className="flex flex-row justify-end">
+            <div className="flex flex-row justify-end md:text-[15px] text-[13px]">
                 <DialogTrigger className="w-40" asChild>
                     <Button className={`w-40 mr-7 hover:cursor-pointer bg-[#e80082] hover:bg-[#e80082] text-black`}><PlusIcon />Create New Space</Button>
                 </DialogTrigger>
             </div>
-            <DialogContent className="bg-[#071919] text-white">
+            <DialogContent className="bg-[#071919] text-white md:text-[15px] text-[13px] md:w-full  w-70">
                 <DialogHeader>
                     <DialogTitle>Create New  Space</DialogTitle>
                 </DialogHeader>
 
-                <Card className="bg-[#071919] text-white border-none">
+                <Card className="bg-[#071919] text-white border-none md:text-[15px] text-[13px]">
                     <CardContent className="flex flex-col">
                         <form action={formAction}>
                             {state.linkCreated == false ? <div className="flex flex-col gap-[7px]">
@@ -89,12 +89,12 @@ export default function DialogForAddSpace() {
                             </div>
                             }
 
-                            <DialogFooter className="mt-3">
+                            <DialogFooter className="mt-3 ">
                                 <DialogClose asChild>
-                                    <Button className="bg-[#889da5] hover:cursor-pointer">Cancel</Button>
+                                    <Button className="bg-[#889da5] hover:cursor-pointer md:text-[15px] text-[13px]">Cancel</Button>
                                 </DialogClose>
                                 {/* <DialogClose asChild> */}
-                                {!state.linkCreated ? <Button className="bg-[#889da5] hover:cursor-pointer" type="submit" >Create</Button> : !linkCopy ? <Button className="bg-[#889da5] hover:cursor-pointer" type="button" onClick={() => handleLinkCopy(state.link)}>Copy</Button> : <Button className="bg-[#889da5] hover:cursor-pointer" type="button" disabled={true}>Copied</Button>}
+                                {!state.linkCreated ? <Button className="bg-[#889da5] hover:cursor-pointer md:text-[15px] text-[13px]" type="submit" >Create</Button> : !linkCopy ? <Button className="bg-[#889da5] hover:cursor-pointer" type="button" onClick={() => handleLinkCopy(state.link)}>Copy</Button> : <Button className="bg-[#889da5] hover:cursor-pointer" type="button" disabled={true}>Copied</Button>}
                                 {/* </DialogClose> */}
                             </DialogFooter>
                         </form>

@@ -5,7 +5,12 @@ export const metadata : Metadata = {
 }
 export default function About() {
   return (
-    <div className="w-full min-h-max flex flex-col gap-5 p-5 justify-center text-[17px] ">
+    <div className="w-full h-screen flex flex-col gap-5 p-5 items-center  py-10 bg-[#071919] text-white  md:text-[15px] text-[13px] ">
+     
+     
+     <div className="w-full flex flex-col gap-5 p-5 items-center ">
+     <h1 className="text-2xl">What Our Platform Gives You</h1>
+     
       SyncStream is a real-time collaborative music experience built for shared
       listening. Whether you're chilling with friends, hosting a party, or
       discovering new tracks with your crew, SyncStream makes music social
@@ -24,10 +29,12 @@ export default function About() {
       devices.</div>
       
 
-      <div>
+      <div className="flex justify-start">
         Built With: Next.js, TypeScript, Tailwind CSS, Node.js,
       Express, Prisma, PostgreSQL, and WebSockets.
       </div>
+      
+      </div> 
       
     </div>
   );

@@ -12,4 +12,5 @@ var IncommingMessageType;
     IncommingMessageType["get_active_polls"] = "GET_ACTIVE_POLLS";
     IncommingMessageType["close_poll"] = "CLOSE_POLL";
     IncommingMessageType["active_users"] = "GET_ACTIVE_USERS";
+    IncommingMessageType["fetch_again"] = "FETCH_AGAIN";
 })(IncommingMessageType || (exports.IncommingMessageType = IncommingMessageType = {}));

@@ -26,7 +26,6 @@ export async function handleCreateStream(prevState : any, formdata : FormData) {
             type : urlType,
             url : inputString
         })
-        const session = await getServerSession();
         // try {
         //     const response = await axiosInstance.post("/api/v1/stream/add-stream"  ,{
         //         spaceId : spaceId,
