@@ -2,8 +2,6 @@ import { prisma } from "@/lib/prisma";
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google"
 
-console.log(process.env.NEXTAUTH_SECRET)
-console.log(process.env.NEXTAUTH_URL)
 const handler = NextAuth({
     providers : [
         GoogleProvider(
@@ -34,9 +32,11 @@ const handler = NextAuth({
     }
     ,
     pages : {
-        signOut :"/"
+        signOut :"/",
+        // signIn : 
     }
 
 })
+
 
 export {handler as GET , handler as POST}

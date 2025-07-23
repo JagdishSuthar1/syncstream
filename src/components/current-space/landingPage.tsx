@@ -80,15 +80,7 @@ export default function LandingPageForCurrentSPace({
         const pathname = usePathname()
         const decryptedSpaceData = GetDecryptedData(pathname.split("/")[2]);
 
-        // if(data.data != undefined) {
-        //     setAllStream(data.data.allStream);
-        //     setCurrentStream(data.data.currentStream)
-        //     setFetchAgain(data.data.fetchAgain)
-        // }
-
-
         useEffect(() => {
-            // const params = new URLSearchParams(window.location.search);
 
             async function handleFetchStream() {
                 const serverData = await getAllStream(decryptedSpaceData.id);
@@ -96,7 +88,6 @@ export default function LandingPageForCurrentSPace({
                 if (serverData.data != null) {
                     setAllStream(serverData.data.allStream);
                     setCurrentStream(serverData.data.currentStream);
-                    // setSpaceSelected(serverData.data.currentSpace)
                     setComments(serverData.data.comments)
                     setFetchAgain(false);
                       commentSocket?.send(JSON.stringify({
@@ -117,12 +108,8 @@ export default function LandingPageForCurrentSPace({
 
 
         useEffect(() => {
-            //   setInterval(()=> {
-            //     router.refresh();
-            //       }, 10000);
             setComments(data.data?.comments!)
-            // console.log("mountinr websocket")
-            const socket = new WebSocket("ws://localhost:3001");
+            const socket = new WebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL as string);
 
             socket.onopen = () => {
                 console.log("Connected");
@@ -232,7 +219,6 @@ export default function LandingPageForCurrentSPace({
 
         }, [state, state2]);
 
-        // const initialState = {};
 
 
         async function PostCommentInSpace(formdata: FormData) {
@@ -265,9 +251,11 @@ export default function LandingPageForCurrentSPace({
             }
         }
 
+
         return (
             <div className={`w-full bg-[#071919] text-${typography} min-h-max  md:text-[15px] text-[13px]`}>
                 {currentPollDetails ? <PollDialog pollStream={currentPollDetails} /> : ""}
+
                 {kicked ? <KickedDialog /> : banned ? <BannedDialog /> :
 
                     <div className="w-full min-h-max flex flex-col gap-5 p-3">
