@@ -13,6 +13,21 @@ const handler = NextAuth({
     ]
     ,
     secret : process.env.NEXTAUTH_SECRET,
+    session: {
+    strategy: "database",
+  },
+  cookies: {
+    sessionToken: {
+      name: "__Secure-next-auth.session-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax", 
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
+  useSecureCookies: process.env.NODE_ENV === "production",
     trueHost : true,
     callbacks : {
         async signIn(params) {
