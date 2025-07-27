@@ -12,7 +12,7 @@ export function middleware(req : NextRequest) {
     // }
         const token = req.cookies.get("next-auth.session-token")?.value;
         if(!token) {
-            return NextResponse.redirect("http://localhost:3000")
+            return NextResponse.redirect(new URL("/", req.url));
         }
         else {
             NextResponse.next()
