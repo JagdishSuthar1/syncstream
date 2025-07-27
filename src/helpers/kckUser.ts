@@ -2,7 +2,6 @@
 
 import { prisma } from "@/lib/prisma";
 import CheckAuthenticated from "./checkAuthenticated"
-import { connect } from "http2";
 
 type ResponseType = {
     success : boolean,

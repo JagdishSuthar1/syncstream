@@ -94,6 +94,8 @@ model Polls {
   dontWant User[] @relation("dontWant_Poll")
 }
 
+
+
 enum StatusType {
   ACTIVE
   CLOSE

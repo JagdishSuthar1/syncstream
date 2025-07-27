@@ -3,8 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import CheckAuthenticated from "./checkAuthenticated"
 import { getServerSession } from "next-auth";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
+ import { redirect } from "next/navigation";
 
 export default async function BannedOrNot(id : number) {
 
