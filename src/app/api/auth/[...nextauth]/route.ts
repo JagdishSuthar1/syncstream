@@ -11,22 +11,9 @@ const handler = NextAuth({
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
-    strategy: "database",
-    maxAge: 30 * 24 * 60 * 60, 
+    strategy: "jwt",
   },
-  useSecureCookies: process.env.NODE_ENV === "production",
-  cookies: {
-    sessionToken: {
-      name: `__Secure-next-auth.session-token`,
-      options: {
-        httpOnly: true,
-        sameSite: "lax",
-        path: "/",
-        secure: process.env.NODE_ENV === "production",
-        domain: process.env.NODE_ENV === "production" ? ".yourdomain.com" : undefined
-      }
-    }
-  },
+  debug: true,
   callbacks: {
     async signIn({ user }) {
       try {
@@ -46,6 +33,7 @@ const handler = NextAuth({
       } catch (err) {
         console.error("SignIn Error:", err);
       }
+
       return true;
     },
   },
