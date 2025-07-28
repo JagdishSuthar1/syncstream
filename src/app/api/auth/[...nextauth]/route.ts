@@ -5,15 +5,14 @@ import { prisma } from "@/lib/prisma";
 const handler = NextAuth({
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
   },
-  debug: true,
   callbacks: {
     async signIn({ user }) {
       try {
@@ -30,16 +29,18 @@ const handler = NextAuth({
             },
           });
         }
+        return true;
       } catch (err) {
         console.error("SignIn Error:", err);
+        return false;
       }
-
-      return true;
     },
   },
   pages: {
-    signOut: "/",
+    signIn: "/api/auth/signin",
+    signOut: "/",              
   },
+  debug: true,
 });
 
 export { handler as GET, handler as POST };
