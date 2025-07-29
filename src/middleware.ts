@@ -1,27 +1,17 @@
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export function middleware(req : NextRequest) {
-    // const currentPath = req.nextUrl.pathname;
-    // console.log("Accessing Path" , currentPath);
+export function middleware(req: NextRequest) {
+  const token =
+    req.cookies.get("__Secure-next-auth.session-token")?.value ||
+    req.cookies.get("next-auth.session-token")?.value;
 
-    // const session = await getServerSession();
+  if (!token) {
+    return NextResponse.redirect(new URL("/", req.url));
+  }
 
-    // if(!(session != null && session?.user != null)) {
-    //     return NextResponse.redirect(new URL("/" , req.url));
-    // }
-        const token = req.cookies.get("next-auth.session-token")?.value;
-        if(!token) {
-            return NextResponse.redirect(new URL("/", req.url));
-        }
-        else {
-            NextResponse.next()
-        }
+  return NextResponse.next();
 }
-
 
 export const config = {
-    matcher : [
-        "/dashboard/:path*",
-    ]
-}
+  matcher: ["/dashboard/:path*"],
+};
