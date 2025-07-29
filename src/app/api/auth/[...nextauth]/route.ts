@@ -37,7 +37,6 @@ const handler = NextAuth({
     },
   },
   pages: {
-    signIn: "/api/auth/signin",
     signOut: "/",              
   },
   debug: true,
