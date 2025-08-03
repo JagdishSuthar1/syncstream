@@ -9,6 +9,7 @@ export function VideoPlayer({videoURL} : {videoURL : string}) {
         controls
         width={"100%"}
         height={"100%"}
+        light={true}
         />
         </div>
     )

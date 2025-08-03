@@ -23,7 +23,7 @@ export default async function SpaceJoinUsingCode(spaceCode : number) {
                 }
             })
     
-            // console.log(result)
+            // //console.log(result)
             if(result.length != 0) {
                 return {
                     success : false,
@@ -48,7 +48,7 @@ export default async function SpaceJoinUsingCode(spaceCode : number) {
                 }
             })
     
-            // console.log("updatedSpace",updatedSpace)
+            // //console.log("updatedSpace",updatedSpace)
             revalidatePath(`/dashboard/${updatedSpace.id}`)
             return {
                 success : true,
@@ -57,7 +57,7 @@ export default async function SpaceJoinUsingCode(spaceCode : number) {
         }
        
        catch(err)  {
-        console.log(err)
+        //console.log(err)
         return {
             success : false,
             data : "Error"

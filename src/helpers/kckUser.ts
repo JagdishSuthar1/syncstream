@@ -58,7 +58,7 @@ export default async function Kickuser(userId : number , spaceId : number) :Prom
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success : false
             }

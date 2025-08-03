@@ -10,8 +10,8 @@ const secret_key = "Jagdish_Suthar"
 
 function handleCreateLink(data : object) {
     const hashedSpaceUserId = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify(data), secret_key).toString());
-    const shareLink = `http://localhost:3000/share/${hashedSpaceUserId}`;
-    console.log(shareLink);
+    const shareLink = `${process.env.NEXT_PUBLIC_BASE_URL}/share/${hashedSpaceUserId}`;
+    //console.log(shareLink);
 
     return shareLink
 
@@ -79,7 +79,7 @@ export async function handleCreateSpace(prevState : any , formData : FormData) {
             }
         }
         catch (err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success: false,
                 message: "Error in Request"

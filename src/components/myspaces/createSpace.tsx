@@ -21,7 +21,7 @@ export default function DialogForAddSpace() {
 
     // async function handleCreateSpace() {
     //     if(nameRef != null && nameRef.current != null) {
-    //         console.log({
+    //         //console.log({
     //             name : nameRef.current.value,
     //         })
 
@@ -29,7 +29,7 @@ export default function DialogForAddSpace() {
     //             name : nameRef.current.value,
     //         })
 
-    //         console.log(response.data)
+    //         //console.log(response.data)
     //         if(response.data.success == true) {
     //             setFetchSpacesAgain(true);
     //             const forShare = {

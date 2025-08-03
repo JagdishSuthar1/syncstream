@@ -39,10 +39,10 @@ return {
 export default async function SpacePage({
     params,
 }: {
-    params: { spaceId: string };
+    params: Promise<{ spaceId: string }>;
 }) {
 
-    const streamData = await getSpaceData(params.spaceId)
+    const streamData = await getSpaceData((await params).spaceId)
 
     return (
         <div className="w-full min-h-max">

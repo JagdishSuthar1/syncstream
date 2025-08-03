@@ -61,7 +61,7 @@ export default async function CreatePoll(pollData  : PollStreamType)  {
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success : false
             }

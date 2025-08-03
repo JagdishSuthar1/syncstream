@@ -40,7 +40,7 @@ export default async function ClosePoll(pollId : number , spaceId : number )  {
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success : false
             }

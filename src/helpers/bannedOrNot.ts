@@ -42,7 +42,7 @@ export default async function BannedOrNot(id : number) {
     }
    
    catch(err)  {
-    console.log(err)
+    //console.log(err)
     return {
         success : false,
         message : "Database error",

@@ -11,6 +11,6 @@ export function GetDecryptedData(encryptedData : string) {
     const shareUrlData = decodeURIComponent(encryptedData);
     const bytes =  (CryptoJS.AES.decrypt(shareUrlData, secret_key))
     const decryptedData  : DecryptedDataType = JSON.parse((bytes.toString(CryptoJS.enc.Utf8)))
-    // console.log(decryptedData)
+    // //console.log(decryptedData)
     return decryptedData
 }

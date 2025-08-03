@@ -60,7 +60,7 @@ export default async function DownVoteOnPoll(id : number, spaceId : number) {
     }
    
    catch(err)  {
-    console.log(err)
+    //console.log(err)
     return {
         success : false,
         message :  " Database error"

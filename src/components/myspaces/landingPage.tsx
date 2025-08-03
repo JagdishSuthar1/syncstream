@@ -84,7 +84,7 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
                         </CardHeader>
                         <CardContent className="w-full h-[85%] flex flex-col gap-1 p-3">
                           {item.thumbnailURL == "" && item.title == "" ? (
-                            <div className="w-full h-[10%] flex flex-col gap-3">
+                            <div className="w-full h-[80%] flex flex-col gap-3">
                               <Skeleton className="w-full h-[90%] "/>
                               <Skeleton className="w-full h-[10%]"/>
                             </div>

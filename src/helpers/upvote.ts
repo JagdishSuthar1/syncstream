@@ -33,7 +33,7 @@ export default async function handleUpvote(prevState: DataProps, formdata: FormD
 
     const streamId = Number(formdata.get("currentStream"))
     const spaceId = Number(formdata.get("spaceId"))
-    console.log("stream and spaceId", streamId, spaceId);
+    //console.log("stream and spaceId", streamId, spaceId);
     const response = await CheckAuthenticated();
     if (response.success == true && response.data != null) {
         await prisma.votes.upsert(

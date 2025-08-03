@@ -58,7 +58,7 @@ export default async function UpvoteOnPoll(id : number, spaceId : number) {
     }
    
    catch(err)  {
-    console.log(err)
+    //console.log(err)
     return {
         success : false,
         message :  " Database error"

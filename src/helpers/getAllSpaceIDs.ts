@@ -15,7 +15,7 @@ export default async function getAllSpaceID() {
         }
     }
     catch(err) {
-        console.log(err);
+        //console.log(err);
         return {
             success : false,
             message : "Database Error",

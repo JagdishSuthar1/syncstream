@@ -22,11 +22,15 @@ type DataProps = {
 };
 
 
+function convertToNoCookieEmbed(url: string): string {
+  const match = url.match(/v=([^&]+)/);
+  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : url;
+}
 
 export default async function getAllStream(
   spaceId: number
 ): Promise<DataProps> {
-  console.log(spaceId);
+  //console.log(spaceId);
   // const results = await axiosInstance.get(`/api/v1/space/${spaceId}`);
 
   const response = await BannedOrNot(spaceId);
@@ -66,7 +70,7 @@ export default async function getAllStream(
     })
 
 
-    // console.log(results.comments);
+    // //console.log(results.comments);
 
     let dummy = [];
     let currentSpace = {
@@ -96,10 +100,11 @@ export default async function getAllStream(
       
       
       
+
       const newDocument = {
         id: results.activeStreams[i].id,
         type: results.activeStreams[i].type,
-        url: results.activeStreams[i].url,
+        url: convertToNoCookieEmbed(results.activeStreams[i].url),
         upvote: upvoteCount,
         downvote: downVoteCount,
         spaceId: results.activeStreams[i].spaceId,

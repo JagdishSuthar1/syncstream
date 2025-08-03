@@ -49,7 +49,7 @@ export default async function ActiveSpaceUsers(spaceId : number) :Promise<Respon
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success : false
             }

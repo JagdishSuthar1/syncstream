@@ -94,7 +94,7 @@ export default async function getAllSpaces() : Promise<AllSpaceType> {
       joinedSpaces
     }
 
-    console.log("all Spaces", allSpaces)
+    //console.log("all Spaces", allSpaces)
     return {
       success: true,
       message: "All Spaces Fetched Successfully",

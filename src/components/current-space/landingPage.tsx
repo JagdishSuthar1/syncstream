@@ -23,6 +23,7 @@ import PollDialog from "./pollDialog";
 import { GetDecryptedData } from "@/helpers/getDecryptedData";
 import { HandleSetCurrentStream } from "@/helpers/setCurrentStream";
 import { Accordion } from "../ui/accordion";
+import ReactPlayer from "react-player";
 
 type DataProps = {
     success: boolean;
@@ -112,7 +113,7 @@ export default function LandingPageForCurrentSPace({
             const socket = new WebSocket(process.env.NEXT_PUBLIC_WEBSOCKET_URL as string);
 
             socket.onopen = () => {
-                console.log("Connected");
+                //console.log("Connected");
                 socket.send(
                     JSON.stringify({
                         type: "JOIN_SPACE",
@@ -127,14 +128,14 @@ export default function LandingPageForCurrentSPace({
 
             socket.onmessage = (ev) => {
                 const getDataFromWS = JSON.parse(ev.data);
-                console.log(getDataFromWS)
+                //console.log(getDataFromWS)
                 if (getDataFromWS.type == "ADDED_USER") {
                     toast.success(getDataFromWS.payload);
                 } else if (getDataFromWS.type == "REMOVED_USER") {
                     toast.error(getDataFromWS.payload);
                 }
                 else if (getDataFromWS.type == "COMMENT_IN_SPACE") {
-                    console.log(getDataFromWS);
+                    //console.log(getDataFromWS);
                     const newComment = {
                         id: getDataFromWS.payload.id,
                         spaceId: getDataFromWS.payload.spaceId,
@@ -144,7 +145,7 @@ export default function LandingPageForCurrentSPace({
                     setComments(prev => (prev ? [...prev, newComment] : [newComment]));
                 }
                 else if (getDataFromWS.type == 'POLL_CREATED') {
-                    console.log("done poll creation")
+                    //console.log("done poll creation")
                     setCurrentPollDetails(prev => prev = getDataFromWS.payload)
                 }
                 else if (getDataFromWS.type == 'CLOSED_POLL') {
@@ -157,22 +158,22 @@ export default function LandingPageForCurrentSPace({
                 }
 
                 else if (getDataFromWS.type == 'ACTIVE_USERS') {
-                    console.log(getDataFromWS)
+                    //console.log(getDataFromWS)
                     setActiveUsers(prev => prev = getDataFromWS.payload)
                 }
                 else if (getDataFromWS.type == 'FETCH_AGAIN') {
-                    console.log(getDataFromWS)
+                    //console.log(getDataFromWS)
                     setFetchAgain(true);
                 }
                 // else if (getDataFromWS.type == 'HOST_STREAM_UPDATE') {
-                //     console.log(getDataFromWS)
+                //     //console.log(getDataFromWS)
                 //     setcu(prev => prev = getDataFromWS.payload)
                 // }
 
             }
 
             socket.onclose = (ev) => {
-                console.log(ev.reason)
+                //console.log(ev.reason)
                 if (ev.reason == 'Kicked') {
                     setKicked(prev => prev = true);
                 }
@@ -224,7 +225,7 @@ export default function LandingPageForCurrentSPace({
         async function PostCommentInSpace(formdata: FormData) {
             const userId = Number(formdata.get("userId"));
             const message = String(formdata.get("message"));
-            // console.log(spaceId + userId + message);
+            // //console.log(spaceId + userId + message);
 
             try {
                 const response = await axiosInstance.post("/api/v1/chats", {
@@ -235,7 +236,7 @@ export default function LandingPageForCurrentSPace({
 
                 if (response.data.success == true) {
                     const newComment = response.data.data;
-                    console.log("newComment", newComment);
+                    //console.log("newComment", newComment);
 
                     commentSocket?.send(
                         JSON.stringify({
@@ -247,7 +248,7 @@ export default function LandingPageForCurrentSPace({
                     toast.error(response.data.message);
                 }
             } catch (err) {
-                console.log(err);
+                //console.log(err);
             }
         }
 
@@ -258,15 +259,15 @@ export default function LandingPageForCurrentSPace({
 
                 {kicked ? <KickedDialog /> : banned ? <BannedDialog /> :
 
-                    <div className="w-full min-h-max flex flex-col gap-5 p-3">
+                    <div className="w-full min-h-screen flex flex-col gap-5 p-3">
 
                         <div className={`w-[98%]   lg:h-150  flex lg:flex-row flex-col gap-3 justify-evenly mt-3  rounded-[5px]`}>
                             <Card className="h-full lg:w-[70%]  w-full flex flex-col gap-0 pb-0 bg-[#071919] rounded-[5px] ">
 
                                 {currentstream ? (
                                     <CardContent className="flex flex-col gap-3 h-full w-full ">
-                                        <div className="w-full h-[85%]">
-                                            <video src={currentstream.url} className="w-full h-full" />
+                                        <div className="w-full h-[85%] text-white">
+                                            <VideoPlayer videoURL={currentstream.url}  />
                                         </div>
 
                                         <div className="w-full flex flex-row h-[15%]">
@@ -276,18 +277,7 @@ export default function LandingPageForCurrentSPace({
                                                 <ScrollBar/>
                                                 </ScrollArea>
                                                 <div className="flex flex-row gap-3 w-full">
-                                                    {/* <Button className="hover:cursor-pointer" onClick={async()=> {
-                                                        
-                                                        const dataAfterVoting = await handleUpvote(currentstream.id);
-                                                        if(dataAfterVoting.data != null) {
-
-
-                                                        setAllStream(dataAfterVoting.data.allStream);
-                                                        setCurrentStream(dataAfterVoting.data.currentStream)
-                                                        setFetchAgain(dataAfterVoting.data.fetchAgain)
-                                                        }
-                                                        }}><ThumbsUpIcon /> <span>{currentstream.upvote}</span></Button> */}
-                                                    {/* <div className="flex flex-row gap-3"> */}
+                                                
 
                                                     <form action={formAction}>
                                                         <input
@@ -302,12 +292,7 @@ export default function LandingPageForCurrentSPace({
                                                             <span>{currentstream.upvote}</span>
                                                         </Button>
                                                     </form>
-
-                                                    {/* <Button className="hover:cursor-pointer" onClick={() => handleDownvote(currentstream.id)}><ThumbsDownIcon /> <span>{currentstream.downvote}</span></Button> */}
-                                                    {/* <form action={formAction}>
-                                                            <input type="hidden" name="currentStream"  />
-                                                            <Button type="submit"> <span>{currentstream.upvote}</span></Button>
-                                                        </form> */}
+                                                    
                                                     <form action={formAction2}>
                                                         <input
                                                             type="hidden"

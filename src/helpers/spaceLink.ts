@@ -28,7 +28,7 @@ export default async function SpaceLink(spaceId : number)  {
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success : false
             }

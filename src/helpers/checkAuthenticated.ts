@@ -5,7 +5,7 @@ export default async function CheckAuthenticated() {
 
 
      const session = await getServerSession();
-            console.log(session)
+            //console.log(session)
             if (session != null && session.user?.email != null) {
                 try {
         
@@ -38,7 +38,7 @@ export default async function CheckAuthenticated() {
         
                 }
                 catch (err) {
-                    console.log(err);
+                    //console.log(err);
                     return{
                         success: false,
                         message: "Error in Request",

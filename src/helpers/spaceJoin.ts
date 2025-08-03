@@ -38,7 +38,7 @@ export default async function HandleSpaceJoin(id : number) {
     }
    
    catch(err)  {
-    console.log(err)
+    //console.log(err)
     return {
         success : false,
         message :  " Database error"

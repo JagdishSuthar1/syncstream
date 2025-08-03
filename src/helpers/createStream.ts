@@ -21,11 +21,7 @@ export async function handleCreateStream(prevState : any, formdata : FormData) {
     const urlType = String(formdata.get("urlType"));
     const inputString = String(formdata.get("inputString"));
 
-        console.log({
-            spaceId : spaceId,
-            type : urlType,
-            url : inputString
-        })
+    
         // try {
         //     const response = await axiosInstance.post("/api/v1/stream/add-stream"  ,{
         //         spaceId : spaceId,
@@ -34,7 +30,7 @@ export async function handleCreateStream(prevState : any, formdata : FormData) {
         //     })
     
     
-        //     console.log(response.data)
+        //     //console.log(response.data)
         //     if(response.data.success == true) {
         //        revalidatePath(`/dashboard/${spaceId}`)
         //        redirect(`/dashboard/${spaceId}`)
@@ -43,7 +39,7 @@ export async function handleCreateStream(prevState : any, formdata : FormData) {
 
         // }
         // catch(err) {
-        //     console.log(err)
+        //     //console.log(err)
         // }
 
 
@@ -51,12 +47,12 @@ export async function handleCreateStream(prevState : any, formdata : FormData) {
                     if(response.success == true && response.data != null) {
                         const youtube_regex = new RegExp(YT_REGEX, "i");
                         const check = youtube_regex.test(inputString);
-                        console.log("check : ", check)
+                        //console.log("check : ", check)
                         if (check) {
                             const extractedId = inputString.split("?v=")[1];
                             const dataFromYoutube = await youtubesearchapi.GetVideoDetails(extractedId)
-                            console.log(dataFromYoutube.thumbnail)
-                            // console.log({
+                            //console.log(dataFromYoutube.thumbnail)
+                            // //console.log({
                             //     userId: reqBody.userId,
                             //     url: reqBody.url,
                             //     thumbnailURL: dataFromYoutube.thumbnail.thumbnails[4].url,

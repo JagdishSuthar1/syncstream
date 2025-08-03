@@ -30,7 +30,7 @@ try {
     }
 }
 catch(err) {
-    console.log(err);
+    //console.log(err);
     return {
         success : false,
         message : "Space is not Deleted"

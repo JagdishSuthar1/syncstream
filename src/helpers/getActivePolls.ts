@@ -46,7 +46,7 @@ export default async function GetActivePolls(spaceId  : number)  {
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success : false
             }

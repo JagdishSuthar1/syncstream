@@ -77,7 +77,7 @@ export default function DialogForAddStream({ userId }: { userId: number }) {
     //       })
 
     //       const data  = await response.json();
-    //       console.log(data)
+    //       //console.log(data)
 
     //       setActiveUsers(data)
     // }
@@ -107,7 +107,7 @@ export default function DialogForAddStream({ userId }: { userId: number }) {
 
                                 {activePolls && activePolls.length > 0 ? activePolls.map((item, index) => (
                                         <Card  key={index} className="w-[full h-13 flex flex-col gap-0 p-1 bg-[#5c5956] hover:cursor-pointer text-white" onClick={() => {
-                                            console.log("current poll selected : ", item)
+                                            //console.log("current poll selected : ", item)
                                             setCurrentPollDetails(item)
                                         }}>
                                             <CardContent className="pl-3 flex flex-row justify-between pr-0">
@@ -141,7 +141,7 @@ export default function DialogForAddStream({ userId }: { userId: number }) {
 
                             // const response = await ActiveSpaceUsers(spaceId)
                             // if (response.success == true && response.data != null) {
-                            //     console.log(response.data)
+                            //     //console.log(response.data)
                             //     setActiveUsers(response.data)
                             // }
 
@@ -218,7 +218,6 @@ export default function DialogForAddStream({ userId }: { userId: number }) {
                     <Tabs onValueChange={setUrlType}>
                         <TabsList>
                             <TabsTrigger value="Youtube" className="hover:cursor-pointer">Youtube</TabsTrigger>
-                            <TabsTrigger value="Spotify" className="hover:cursor-pointer">Spotify</TabsTrigger>
                         </TabsList>
                         <TabsContent value="Youtube">
                             <Card>
@@ -241,26 +240,7 @@ export default function DialogForAddStream({ userId }: { userId: number }) {
                                 </CardContent>
                             </Card>
                         </TabsContent>
-                        <TabsContent value="Spotify">
-                            <Card>
-                                <CardContent className="flex flex-col">
-                                    <Label htmlFor="url" className="pl-1">Url</Label>
-                                    <form action={formAction3}>
-                                        <Input type="hidden" name="spaceId" value={decryptedSpaceData.id} />
-                                        <Input type="hidden" name="urlType" value={urlType} />
-                                        <Input type="text" ref={urlRef} name="inputString" placeholder="Paste the url" id="url" className="w-full mt-2 mb-3" />
-                                        <DialogFooter>
-
-                                            <DialogClose asChild>
-                                                <Button className="hover:cursor-pointer">Cancel</Button>
-                                            </DialogClose>
-                                            <Button type="submit" className="hover:cursor-pointer">Create</Button>
-                                        </DialogFooter>
-                                    </form>
-
-                                </CardContent>
-                            </Card>
-                        </TabsContent>
+                    
                     </Tabs>
                     <DialogFooter>
                         {/* <DialogClose asChild>

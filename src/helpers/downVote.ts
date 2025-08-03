@@ -34,7 +34,7 @@ export default async function handleDownvote(prevState: DataProps, formdata: For
 
     const streamId = Number(formdata.get("currentStream"))
     const spaceId = Number(formdata.get("spaceId"))
-    console.log("stream and spaceId", streamId, spaceId);
+    ////console.log("stream and spaceId", streamId, spaceId);
 
 
     const response = await CheckAuthenticated()

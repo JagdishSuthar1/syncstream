@@ -21,9 +21,9 @@ export async function generateStaticParams() {
 
 
 type ParamsProp = {
-    params : {
+    params : Promise<{
         spaceId: string 
-    }
+    }>
 }
 
 

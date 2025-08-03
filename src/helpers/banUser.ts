@@ -67,7 +67,7 @@ export default async function BanUser(userId : number , spaceId : number) :Promi
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             return {
                 success : false
             }

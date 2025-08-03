@@ -31,7 +31,7 @@ export default async function PostCommentInSpace(formdata : FormData) {
         }
 
         catch(err) {
-            console.log(err);
+            //console.log(err);
             
         }
         
