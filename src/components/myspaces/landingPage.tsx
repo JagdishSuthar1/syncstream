@@ -15,7 +15,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { use, useContext, useEffect, useState } from "react";
 import { toast } from "sonner";
-import CryptoJS from "crypto-js"
+import AES from "crypto-js/aes";
 import { AllSpaceType } from "@/types/allTypes";
 
 const secret_key = "Jagdish_Suthar"
@@ -105,7 +105,7 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
                               const response = await HandleSpaceJoin(item.id)
                               if (response.success == true) {
                                 setSpaceSelected(item)
-                                const hashedSpaceUserId = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify({
+                                const hashedSpaceUserId = encodeURIComponent(AES.encrypt(JSON.stringify({
                                   id: item.id,
                                   creatorId: item.creatorId
                                 }), secret_key).toString());
@@ -160,6 +160,7 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
                         <div className="flex flex-row justify-end">
                           <Button className={`hover:cursor-pointer bg-[${colorsStates.dashaboardPage.link_delete_button}]`} onClick={async () => {
                             const response = await HandleSpaceJoin(item.id)
+
                             if (response.success == true) {
                               setSpaceSelected(item)
                               const hashedSpaceUserId = encodeURIComponent(CryptoJS.AES.encrypt(JSON.stringify({

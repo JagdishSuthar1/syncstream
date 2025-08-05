@@ -1,4 +1,5 @@
-import CryptoJS from "crypto-js"
+import AES from "crypto-js/aes";
+import Utf8 from "crypto-js/enc-utf8";
 
 const secret_key = "Jagdish_Suthar"
 
@@ -9,8 +10,8 @@ export type DecryptedDataType =  {
 
 export function GetDecryptedData(encryptedData : string) {
     const shareUrlData = decodeURIComponent(encryptedData);
-    const bytes =  (CryptoJS.AES.decrypt(shareUrlData, secret_key))
-    const decryptedData  : DecryptedDataType = JSON.parse((bytes.toString(CryptoJS.enc.Utf8)))
-    // //console.log(decryptedData)
+    const bytes =  (AES.decrypt(shareUrlData, secret_key))
+    console.log((bytes.toString(Utf8)))
+    const decryptedData  : DecryptedDataType = JSON.parse((bytes.toString(Utf8)))
     return decryptedData
 }
