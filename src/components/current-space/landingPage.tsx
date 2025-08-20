@@ -11,7 +11,7 @@ import handleUpvote from "@/helpers/upvote";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Router, ThumbsDownIcon, ThumbsUpIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
-import { useActionState, useContext, useEffect, useState } from "react";
+import { useActionState, useContext, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Input } from "../ui/input";
 
@@ -79,6 +79,7 @@ export default function LandingPageForCurrentSPace({
         const [state2, formAction2] = useActionState(handleDownvote, data);
 
         const pathname = usePathname()
+        const currentStreamRef = useRef<HTMLVideoElement>(null);
         const decryptedSpaceData = GetDecryptedData(pathname.split("/")[2]);
 
         useEffect(() => {
@@ -165,6 +166,21 @@ export default function LandingPageForCurrentSPace({
                     //console.log(getDataFromWS)
                     setFetchAgain(true);
                 }
+                else if (getDataFromWS.type == 'PLAY_STREAM') {
+                    //console.log(getDataFromWS)
+                    if(currentStreamRef.current != null) {
+                        currentStreamRef.current.currentTime = getDataFromWS.time;
+                        currentStreamRef.current.play()
+
+                    }
+                }
+                else if (getDataFromWS.type == 'PAUSE_STREAM') {
+                    //console.log(getDataFromWS)
+                     if(currentStreamRef.current != null) {
+                        currentStreamRef.current.currentTime = getDataFromWS.time;
+                        currentStreamRef.current.pause()
+                    }
+                }
                 // else if (getDataFromWS.type == 'HOST_STREAM_UPDATE') {
                 //     //console.log(getDataFromWS)
                 //     setcu(prev => prev = getDataFromWS.payload)
@@ -181,7 +197,6 @@ export default function LandingPageForCurrentSPace({
                     setBanned(prev => prev = true);
                 }
             }
-
 
 
             setCommentSocket(prev => prev = socket);
@@ -267,7 +282,36 @@ export default function LandingPageForCurrentSPace({
                                 {currentstream ? (
                                     <CardContent className="flex flex-col gap-3 h-full w-full ">
                                         <div className="w-full h-[85%] text-white">
-                                            <VideoPlayer videoURL={currentstream.url}  />
+                                            <video ref={currentStreamRef} src={currentstream.url}  
+                                            onPlay={(event)=>
+                                                commentSocket?.send(JSON.stringify({
+                                                                    type: "PLAY_STREAM",
+                                                                    payload: {
+                                                                        spaceId: decryptedSpaceData.id,
+                                                                        time : currentStreamRef.current?.currentTime
+                                                                    }
+                                                                }))
+                                            }
+                                            onPause={(event)=>
+                                                commentSocket?.send(JSON.stringify({
+                                                                    type: "PAUSE_STREAM",
+                                                                    payload: {
+                                                                        spaceId: decryptedSpaceData.id,
+                                                                        time : currentStreamRef.current?.currentTime
+                                                                    }
+                                                                }))
+                                            } 
+
+                                            onSeeked={(event)=>
+                                                commentSocket?.send(JSON.stringify({
+                                                                    type: "SYNC_STREAM",
+                                                                    payload: {
+                                                                        spaceId: decryptedSpaceData.id,
+                                                                        time : currentStreamRef.current?.currentTime
+                                                                    }
+                                                                }))
+                                            } 
+                                            />
                                         </div>
 
                                         <div className="w-full flex flex-row h-[15%]">
@@ -358,8 +402,18 @@ export default function LandingPageForCurrentSPace({
                                                 <Card
                                                     key={index}
 
-                                                    className={`w-full md:h-35 h-29 bg-[#cfc8b6] hover:cursor-pointer rounded-[5px] py-3 px-1 `}
-                                                    onClick={async() => {
+                                                    className={`w-full md:h-35 h-29 bg-[#cfc8b6]  rounded-[5px] py-3 px-1 `}
+                                                    
+                                                    
+                                                >
+                                                    {/* {colorsStates.streamPage.background} */}
+                                                    <CardContent className="flex flex-row justify-between w-full h-full gap-5 px-1">
+                                                        <div className="w-[30%] h-full">
+                                                            <img
+                                                                className="w-full h-full rounded-[7px] hover:cursor-pointer"
+                                                                src={item.thumbnailURL}
+                                                                alt=""
+                                                                onClick={async() => {
                                                         if (decryptedSpaceData.creatorId == data.userInfo?.id) {
                                                             const response = await HandleSetCurrentStream(decryptedSpaceData.id , item.id);
                                                             if(response.success == true) {
@@ -376,16 +430,7 @@ export default function LandingPageForCurrentSPace({
                                                         else {
                                                             toast.error("Only host can change the stream");
                                                         }
-                                                    }
-                                                    }
-                                                >
-                                                    {/* {colorsStates.streamPage.background} */}
-                                                    <CardContent className="flex flex-row justify-between w-full h-full gap-5 px-1">
-                                                        <div className="w-[30%] h-full">
-                                                            <img
-                                                                className="w-full h-full rounded-[7px]"
-                                                                src={item.thumbnailURL}
-                                                                alt=""
+                                                    }}
                                                             />
                                                         </div>
                                                         <div className="w-[70%] h-full flex flex-col  justify-between">

@@ -107,7 +107,8 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
                                 setSpaceSelected(item)
                                 const hashedSpaceUserId = encodeURIComponent(AES.encrypt(JSON.stringify({
                                   id: item.id,
-                                  creatorId: item.creatorId
+                                  creatorId: item.creatorId,
+                                  code : item.spaceCode
                                 }), secret_key).toString());
 
                                 router.push(`/dashboard/${hashedSpaceUserId}`)

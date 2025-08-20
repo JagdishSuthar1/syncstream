@@ -111,17 +111,19 @@ export type StreamType = {
 }
 
 
+
 export type SpaceType = {
-    id: number
-    name: string,
-    creatorId: number,
-    spaceCode: number,
-    link: string,
-    title?: string,
-    thumbnailURL?: string
-    activeUsers: UserType[]
-    activeStreams?: StreamType[]
-}
+  id: number;
+  name: string;
+  creatorId: number;
+  spaceCode: number;
+  currentStream: {
+    link: string;
+    title: string;
+    thumbnailURL: string;
+  } | null;
+};
+
 
 
 export type CommentType = {

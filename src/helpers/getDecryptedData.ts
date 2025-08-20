@@ -5,7 +5,8 @@ const secret_key = "Jagdish_Suthar"
 
 export type DecryptedDataType =  {
     id : number,
-    creatorId : number
+    creatorId : number,
+    code : number
 }
 
 export function GetDecryptedData(encryptedData : string) {

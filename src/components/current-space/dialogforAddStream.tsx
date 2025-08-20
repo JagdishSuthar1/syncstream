@@ -198,7 +198,7 @@ export default function DialogForAddStream({ userId }: { userId: number }) {
 
                 <Button className={`md:w-10  mt-[1px] w-7  not-md:h-7 bg-[#e80082]`} onClick={async () => {
                     setLinkCopy(true);
-                    await window.navigator.clipboard.writeText(spaceSelected?.link!);
+                    await window.navigator.clipboard.writeText(window.location.href);
                     setTimeout(() => {
                         setLinkCopy(false)
                     }, 800)
