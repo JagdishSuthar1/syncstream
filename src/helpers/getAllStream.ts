@@ -10,7 +10,19 @@ type DataProps = {
   data: {
     currentStream: StreamType;
     allStream: StreamType[];
-    currentSpace: SpaceType,
+    currentSpace: {
+    id: number;
+    creatorId: number;
+    link: string;
+    name: string;
+    spaceCode: number;
+    activeUsers: {
+        id: number;
+        email: string;
+        provider: string;
+        role: string;
+    }[];
+},
     comments: {
       id: number;
       spaceId: number;
@@ -22,10 +34,10 @@ type DataProps = {
 };
 
 
-function convertToNoCookieEmbed(url: string): string {
-  const match = url.match(/v=([^&]+)/);
-  return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : url;
-}
+// function convertToNoCookieEmbed(url: string): string {
+//   const match = url.match(/v=([^&]+)/);
+//   return match ? `https://www.youtube-nocookie.com/embed/${match[1]}` : url;
+// }
 
 export default async function getAllStream(
   spaceId: number
@@ -67,13 +79,14 @@ export default async function getAllStream(
           }
         }
       }
+      
     })
 
 
     // //console.log(results.comments);
 
     let dummy = [];
-    let currentSpace = {
+    let currentSpace  = {
       id: results.id,
       creatorId: results.creatorId,
       link: results.link,
@@ -104,7 +117,7 @@ export default async function getAllStream(
       const newDocument = {
         id: results.activeStreams[i].id,
         type: results.activeStreams[i].type,
-        url: convertToNoCookieEmbed(results.activeStreams[i].url),
+        url: results.activeStreams[i].url,
         upvote: upvoteCount,
         downvote: downVoteCount,
         spaceId: results.activeStreams[i].spaceId,

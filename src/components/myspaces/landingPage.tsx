@@ -83,7 +83,7 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
                           </Button>
                         </CardHeader>
                         <CardContent className="w-full h-[85%] flex flex-col gap-1 p-3">
-                          {item.thumbnailURL == "" && item.title == "" ? (
+                          {item.currentStream == null ? (
                             <div className="w-full h-[80%] flex flex-col gap-3">
                               <Skeleton className="w-full h-[90%] "/>
                               <Skeleton className="w-full h-[10%]"/>
@@ -92,14 +92,15 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
 
                             <div className="w-full h-[80%] flex flex-col gap-3">
                               <img
-                                src={item.thumbnailURL}
+                                src={item.currentStream.thumbnailURL}
                                 width={"918"}
                                 alt=""
                                 className="w-full h-[85%] object-cover"
                               />
-                              <span className="w-full h-[10%]"> {item.title}</span>
+                              <span className="w-full h-[10%]"> {item.currentStream.title}</span>
                             </div>
                           )}
+
                           <div className="w-full h-[10%] flex flex-row justify-end">
                             <Button className={`mt-3 hover:cursor-pointer bg-[${colorsStates.dashaboardPage.link_delete_button}] `} onClick={async () => {
                               const response = await HandleSpaceJoin(item.id)
@@ -141,7 +142,7 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
 
                       </CardHeader>
                       <CardContent className="flex flex-col gap-1 p-3">
-                        {item.thumbnailURL == "" && item.title == "" ? (
+                        {item.currentStream == null ? (
                           <div className="w-full h-full flex flex-col gap-3">
                             <Skeleton className="w-full h-40" />
                             <Skeleton className="w-full h-20" />
@@ -150,12 +151,12 @@ export default function DashboardLandingPage({ data }: { data: AllSpaceType }) {
 
                           <div>
                             <img
-                              src={item.thumbnailURL}
+                              src={item.currentStream.thumbnailURL}
                               width={"918"}
                               height={"516"}
                               alt=""
                             />
-                            <span>{item.title}</span>
+                            <span>{item.currentStream.title}</span>
                           </div>
                         )}
                         <div className="flex flex-row justify-end">

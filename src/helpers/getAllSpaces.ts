@@ -1,9 +1,6 @@
 "use server";
 import { prisma } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
-import { join } from "path";
 import CheckAuthenticated from "./checkAuthenticated";
-import { SpaceType } from "@/context";
 import { AllSpaceType } from "@/types/allTypes";
 
 export default async function getAllSpaces(): Promise<AllSpaceType> {
@@ -37,14 +34,15 @@ export default async function getAllSpaces(): Promise<AllSpaceType> {
         name: data[i].name,
         creatorId: data[i].creatorId,
         spaceCode: data[i].spacecode,
-        currentStream: data[i].stream
-          ? {
-            link: data[i].stream.url,
-            title: data[i].stream.title,
-            thumbnailURL: data[i].stream.thumbnailURL,
+        currentStream: data[i].stream ? {
+            link: data[i].stream!.url,
+            title: data[i].stream!.title,
+            thumbnailURL: data[i].stream!.thumbnailURL,
           }
           : null,
       };
+
+      if(data[i].stream != null) {}
 
       if (data[i].creatorId == response.data.id) {
         mySpaces.push(newDocument);

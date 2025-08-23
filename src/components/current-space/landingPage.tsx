@@ -282,35 +282,8 @@ export default function LandingPageForCurrentSPace({
                                 {currentstream ? (
                                     <CardContent className="flex flex-col gap-3 h-full w-full ">
                                         <div className="w-full h-[85%] text-white">
-                                            <video ref={currentStreamRef} src={currentstream.url}  
-                                            onPlay={(event)=>
-                                                commentSocket?.send(JSON.stringify({
-                                                                    type: "PLAY_STREAM",
-                                                                    payload: {
-                                                                        spaceId: decryptedSpaceData.id,
-                                                                        time : currentStreamRef.current?.currentTime
-                                                                    }
-                                                                }))
-                                            }
-                                            onPause={(event)=>
-                                                commentSocket?.send(JSON.stringify({
-                                                                    type: "PAUSE_STREAM",
-                                                                    payload: {
-                                                                        spaceId: decryptedSpaceData.id,
-                                                                        time : currentStreamRef.current?.currentTime
-                                                                    }
-                                                                }))
-                                            } 
-
-                                            onSeeked={(event)=>
-                                                commentSocket?.send(JSON.stringify({
-                                                                    type: "SYNC_STREAM",
-                                                                    payload: {
-                                                                        spaceId: decryptedSpaceData.id,
-                                                                        time : currentStreamRef.current?.currentTime
-                                                                    }
-                                                                }))
-                                            } 
+                                            <VideoPlayer videoURL={currentstream.url}  impData={{spaceId : decryptedSpaceData.id}}
+                                           
                                             />
                                         </div>
 
